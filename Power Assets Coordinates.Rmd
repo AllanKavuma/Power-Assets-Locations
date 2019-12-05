@@ -1,0 +1,45 @@
+---
+title: "Power Assets ATC Uganda Coordinates"
+author: "Allan Kavuma"
+date: "5 December 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries}
+## Load libraries to read, manipulate and plot the data
+library(xlsx) ## For reading excel file
+library(dplyr) ## For data manipulation
+library(leaflet)  ## For plotting coordinates on the graph
+```
+
+```{r readData}
+## Read the data
+assetsData <- read.xlsx("Power - Assets - ATC Uganda Codinates.xlsx", sheetName = "data")
+```
+
+```{r dataExploration}
+str(assetsData)
+table(is.na(assetsData$Latitude))
+table(is.na(assetsData$Longitude))
+table(is.na(assetsData$Site.Name))
+colnames(assetsData)
+```
+
+```{r dataManipulation}
+## Change Site.Name field to character
+assetsData$Site.Name <- as.character(assetsData$Site.Name)
+```
+
+```{r plotMap}
+## Plot map according to vendor
+leaflet(assetsData) %>% addTiles() %>% addMarkers(
+        lat = assetsData$Latitude,
+        lng = assetsData$Longitude,
+        popup = assetsData$Site.Name,
+        clusterOptions = markerClusterOptions()
+)
+```

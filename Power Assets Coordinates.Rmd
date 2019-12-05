@@ -9,19 +9,19 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r libraries}
+```{r libraries, echo=FALSE, message=FALSE, warning=FALSE}
 ## Load libraries to read, manipulate and plot the data
 library(xlsx) ## For reading excel file
 library(dplyr) ## For data manipulation
 library(leaflet)  ## For plotting coordinates on the graph
 ```
 
-```{r readData}
+```{r readData, echo=FALSE, message=FALSE, warning=FALSE}
 ## Read the data
 assetsData <- read.xlsx("Power - Assets - ATC Uganda Codinates.xlsx", sheetName = "data")
 ```
 
-```{r dataExploration}
+```{r dataExploration, echo=FALSE, message=FALSE, warning=FALSE,eval=FALSE}
 str(assetsData)
 table(is.na(assetsData$Latitude))
 table(is.na(assetsData$Longitude))
@@ -29,12 +29,12 @@ table(is.na(assetsData$Site.Name))
 colnames(assetsData)
 ```
 
-```{r dataManipulation}
+```{r dataManipulation, echo=FALSE, message=FALSE, warning=FALSE}
 ## Change Site.Name field to character
 assetsData$Site.Name <- as.character(assetsData$Site.Name)
 ```
 
-```{r plotMap}
+```{r plotMap, echo=FALSE, message=FALSE, warning=FALSE}
 ## Plot map according to vendor
 leaflet(assetsData) %>% addTiles() %>% addMarkers(
         lat = assetsData$Latitude,
